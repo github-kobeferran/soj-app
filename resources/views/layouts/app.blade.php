@@ -32,14 +32,23 @@
        
     @include('inc.navbar')
 
-    @yield('content')
+    <main>
+        @yield('content')
+    </main>
 
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="text-muted my-0 py-0">&#169; Capstone 1</p>
+            <p class="text-muted my-0 py-0">Precious Dalisay</p>
+          <p class="text-muted my-0 py-0">Camille Lopez</p>
+        </div>
+      </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>    
-    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>      
+      
 </body>
 </html>
 

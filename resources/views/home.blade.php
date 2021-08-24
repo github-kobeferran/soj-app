@@ -20,62 +20,45 @@
 
         <hr>
 
-        <div class=" container text-center ">
+        <div class="container text-center">
 
             <div class="row">
 
-                <div class="col">
-
+                <div class="col-sm">
                     <div class="border border-secondary m-2 p-4 text-center">
-
                         <img src="{{url('storage/images/system/homepage/puerto.png')}}" alt="" class="learn-more-img">
-    
                         <p class="mx-auto">
                             Puerto Galera
                         </p>
-
                         <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
-    
                     </div>
-            
                 </div>
-                <div class="col">
 
+                <div class="col-sm">
                     <div class="border border-secondary m-2 p-4 text-center">
-    
                         <img src="{{url('storage/images/system/homepage/building2.png')}}" alt="" class="learn-more-img">
-        
-        
                             <p class="mx-auto">
                                 Resort
                             </p>
-        
                             <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
-
                     </div>
-                
-
                 </div>
-                <div class="col">
 
+                <div class="col-sm">
                     <div class="border border-secondary m-2 p-4 text-center">
-        
                         <img src="{{url('storage/images/system/homepage/restau.png')}}" alt="" class="learn-more-img">
-        
-        
                             <p class="mx-auto">
                                 Restaurant
                             </p>
 
                             <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
-                            
                     </div>
-
                 </div>
 
             </div>
 
-        </div>
+        </div>        
+
                 
     </div>
 

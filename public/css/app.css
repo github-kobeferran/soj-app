@@ -39,6 +39,16 @@
   color: #9c2a00;
 }
 
+footer {
+  bottom: 0;
+  color: #707070;
+  height: 2em;
+  left: 0;
+  position: relative;
+  font-size: small;
+  width: 100%;
+}
+
 /*!
  * Bootstrap v4.6.0 (https://getbootstrap.com/)
  * Copyright 2011-2021 The Bootstrap Authors
