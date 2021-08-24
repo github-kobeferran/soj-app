@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Allison&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Charmonman:wght@700&display=swap');
+
+
+.upper-panel{    
+    background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url("/storage/images/system/homepage/background.png")  fixed;       
+    box-shadow: 1px 1px 1px 10px rgb(223, 223, 223); 
+}
+
+#homepage {
+    font-family: 'Open Sans', sans-serif;
+    font-size: larger;
+    background : rgb(231, 229, 229);
+    
+    // background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url("/storage/images/system/homepage/building.jpg") no-repeat center center fixed;       
+    // -webkit-background-size: cover;
+    // -moz-background-size: cover;
+    // -o-background-size: cover;
+    // background-size: cover;
+} 
+
+.brand-title{
+    font-family: 'Charmonman', cursive;
+    font-size: 3rem;
+    color: rgb(156, 42, 0);
+    text-shadow: 1px 1px 10px rgb(129, 129, 129);
+}
+
+.learn-more-img{
+   margin: auto;
+   width: 100px;   
+   box-shadow: 1px 1px 10px rgb(129, 129, 129);
+}
+
+#system-navbar {
+
+    font-family: 'Allison', cursive !important;
+    font-size: 2.8rem;
+    font-weight: 600;
+    background: linear-gradient(#03a8f5, #f6f7ff); 
+    text-shadow: 1px 1px 10px #9ed8f3;           
+}
+
+#system-navbar .nav-link:hover {
+
+    color: rgb(156, 42, 0);
+}
+
+
