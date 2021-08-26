@@ -11,19 +11,19 @@
 
     <div class="collapse navbar-collapse justify-content-around" id="navbarsExample08">
        
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ">
 
-            <li class="nav-item">    
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Home') }}</a>
+            <li class="nav-item ">    
+                <a class="nav-link" href="{{ route('register') }}">{{ __('Home,') }}</a>
             </li>
             <li class="nav-item">    
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Restaurant') }}</a>
+                <a class="nav-link" href="{{ route('register') }}">{{ __('Restaurant,') }}</a>
             </li>
-            <li class="nav-item mr-2">    
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Hotel') }}</a>
+            <li class="nav-item mr-4">    
+                <a class="nav-link" href="{{ route('roomtypes.clientview') }}">{{ __('Hotel.') }}</a>
             </li>
 
-            <span class="text-center"> <i class="text-secondary align-middle fa fa-caret-left" aria-hidden="true"></i></span>
+            
 
             @guest
                 @if (Route::has('login'))
@@ -39,11 +39,26 @@
                 @endif
             @else
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle ml-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle " href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" style="font-family: 'Open Sans', sans-serif !important;"  aria-labelledby="navbarDropdown">
+
+                        @if (auth()->user()->isAdmin())
+
+                            <a class="dropdown-item" href="/profile">
+                                Admin Dashboard
+                            </a>
+                            
+                        @else
+
+                            <a class="dropdown-item" href="/profile">
+                                My Profile
+                            </a>
+                            
+                        @endif
+
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">

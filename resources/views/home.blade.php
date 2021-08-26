@@ -40,7 +40,7 @@
                             <p class="mx-auto">
                                 Resort
                             </p>
-                            <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
+                            <a href="/hotel" class="border border-dark text-center p-2 text-dark" > Learn More</a>
                     </div>
                 </div>
 
@@ -57,7 +57,27 @@
 
             </div>
 
-        </div>        
+        </div> 
+        
+        <div class="container">
+
+            <footer class="footer">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col">
+                            <p class="text-muted my-0 py-0">&#169; Capstone 1</p>
+                            <p class="text-muted my-0 py-0">Precious Dalisay</p>
+                            <p class="text-muted my-0 py-0">Camille Lopez</p>
+                        </div>
+                        <div class="col">
+                            <p class="text-muted my-0 py-0">Song of Joy Resort, Sabang, Puerto Galera, MD 5203, Philippines</p>
+                            <p class="text-muted my-0 py-0">Phone: 043-287-3136</p>
+                        </div>
+                    </div>
+                </div>
+              </footer>
+
+        </div>
 
                 
     </div>
