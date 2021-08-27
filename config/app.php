@@ -14,6 +14,9 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    
+    'paypalClientId' => env('PAYPAL_CLIENT_ID', 'Laravel'),
+    'paypalMerchantId' => env('PAYPAL_MERCHANT_ID', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://songofjoy.test'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -67,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Manila',
 
     /*
     |--------------------------------------------------------------------------

@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Transaction;
 use App\Models\Balance;
 use App\Models\Client;
+use App\Models\Room;
 use Carbon\Carbon;
 
 class BookingsController extends Controller
@@ -72,7 +73,7 @@ class BookingsController extends Controller
         $transaction = new Transaction;
 
         $transaction->client_id = $client->id;
-        $transaction->desc = 'booking payment';
+        $transaction->desc = 'Booking #' . $booking->booking_id . ' Payment';
         $transaction->prev_bal = $balance->amount;        
 
         $balance->amount -= $amount;
@@ -100,10 +101,14 @@ class BookingsController extends Controller
         $booking = Booking::find($request->input('id'));
         $booking->status = 2;     
 
+        $room = Room::find($booking->room_id);
+        $room->status = 1;
+
         $client = Client::find($booking->client->id);
         $client->checked_in = 1;
         $client->last_checked_in = Carbon::now();
 
+        $room->save(); 
         $booking->save(); 
         $client->save();
         
@@ -119,13 +124,43 @@ class BookingsController extends Controller
         $booking = Booking::find($request->input('id'));
         $booking->status = 3;   
 
+        $room = Room::find($booking->room_id);
+        $room->status = 0;
+
         $client = Client::find($booking->client->id);
         $client->checked_in = 0;
 
+        $room->save(); 
         $booking->save(); 
         $client->save();
         
         return redirect('/admin')->with('info', 'Client ' . $booking->client->user->name . ' is Checked out');
+
+    }
+
+    public function cancel(Request $request){
+
+        if($request->method() != 'POST')
+            return redirect()->back();
+
+        $booking = Booking::find($request->input('id'));
+        
+        $booking->status = 4;
+        $booking->save();
+
+        $transaction = new Transaction;
+
+        $transaction->client_id = auth()->user()->client->id;
+        $transaction->desc = 'Cancellation of BOOKING #' . $booking->booking_id;
+        $transaction->prev_bal = auth()->user()->client->balance->amount;
+        $transaction->rem_bal = auth()->user()->client->balance->amount;
+        
+        $transaction->trans_id = Carbon::now()->isoFormat('YY') . sprintf('%04d', $transaction->id);
+
+        $transaction->save();  
+
+        return redirect('/profile')->with('info', "BOOKING #" . $booking->booking_id ." has been cancelled.");
+
 
     }
 

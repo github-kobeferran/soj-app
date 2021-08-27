@@ -32,6 +32,8 @@ Route::get('/storebooking/{email}/{amount}/{roomtype}/{startdate}/{enddate}/{qua
 Route::middleware([App\Http\Middleware\ProtectClientRoutesMiddleware::class])->group(function () {
 
     Route::any('/updateprofile', [App\Http\Controllers\ClientsController::class, 'update'])->name('client.update');    
+    Route::any('/paybalance', [App\Http\Controllers\ClientsController::class, 'payBalance'])->name('client.paybalance');    
+    Route::any('/cancelbook', [App\Http\Controllers\BookingsController::class, 'cancel'])->name('booking.cancel');
 
 });
 
@@ -53,6 +55,6 @@ Route::middleware([App\Http\Middleware\ProtectAdminRoutesMiddleware::class])->gr
     Route::any('/bedupdate', [App\Http\Controllers\BedsController::class, 'update'])->name('bed.update');
     Route::any('/beddelete', [App\Http\Controllers\BedsController::class, 'delete'])->name('bed.delete');
     Route::any('/checkin', [App\Http\Controllers\BookingsController::class, 'checkIn'])->name('booking.checkin');
-    Route::any('/bookdone', [App\Http\Controllers\BookingsController::class, 'done'])->name('booking.done');
+    Route::any('/bookdone', [App\Http\Controllers\BookingsController::class, 'done'])->name('booking.done');    
 
 });

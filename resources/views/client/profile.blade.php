@@ -145,11 +145,76 @@
                     </div>
                     
                 @endif
+                
+                <?php 
+                    $merchant_id =  config('app.paypalMerchantId', 'paypal-client-id-missing');
+                    $num = $user_client->client->balance->amount;
+                ?>
+                
+
+                @if ($user_client->id == auth()->user()->id)
+
+                    <script src="https://www.paypal.com/sdk/js?client-id={{config('app.paypalClientId', 'paypal-client-id-missing')}}&currency=PHP"></script>                   
+
+                    
+                    <div class="text-left border-bottom border-warning p-2">
+
+                        <div class="text-center mt-2">
+                            <b class="material-text" style="font-size: 1rem !important;">Pay your balance with </b>
+                        </div>
+
+                        <div id="paypal-button-container"></div>
+
+                    </div>
+
+                    <script>
+
+                        var merchant_id = {!! json_encode($merchant_id) !!}
+                        var num = {!! json_encode($num) !!}
+
+                                                                    
+
+                        paypal.Buttons({
+                                createOrder: function(data, actions) {
+                                // This function sets up the details of the transaction, including the amount and line item details.                                                   
+                                
+                                return actions.order.create({
+                                    style: {
+                                        size : 'small'
+                                    },
+                                    purchase_units: [{                                                    
+                                        amount: {
+                                            value: num,
+                                            currency_code: "PHP", 
+                                            payee : merchant_id    
+                                        }
+                                    }]
+                                    });
+
+                                },
+                                onApprove: function(data, actions) {
+
+                                    // This function captures the funds from the transaction.
+                                    return actions.order.capture().then(function(details) {
+                                        // This function shows a transaction success message to your buyer.
+                                        // alert('Transaction completed by ' + details.payer.name.given_name);
+                                        // console.log(details);
+                                        window.location.replace('/paybalance');
+                                    
+                                    });
+                                },
+                                onCancel: function(data){                            
+                                                                                            
+
+                                }
+                            }).render('#paypal-button-container');
+                            //This function displays Smart Payment Buttons on your web page.
 
 
-       
-                            
-
+                    </script>
+                    
+                @endif
+                
             </div>
           
 
@@ -191,7 +256,38 @@
 
                                     @switch($booking->status)
                                         @case(1)
-                                            <td>Pending</td>
+                                            <td>
+                                                <button data-toggle="modal" data-target="#cancelModal" class="btn btn-warning">Pending</button>
+
+                                                <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                      <div class="modal-content">
+                                                        <div class="modal-header bg-warning text-dark">
+                                                          <h5 class="modal-title" id="exampleModalLongTitle" >CANCEL BOOKING</h5>
+                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                          </button>
+                                                        </div>
+                                                        {!!Form::open(['url' => '/cancelbook', 'files' => true])!!}
+                            
+                                                        {{Form::hidden('id', $booking->id)}}
+                                                        <div class="px-2">
+
+                                                            Are you <b>SURE</b> you want to <b>cancel</b> this <b>BOOKING</b>?
+
+                                                        </div>
+                            
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-warning">Yes</button>
+                                                            <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+                                                        </div>
+                                                        {!!Form::close()!!}
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+
+                                            </td>
                                             @break
                                         @case(2)
                                             <td>Cheked in</td>
@@ -256,7 +352,7 @@
                                 @foreach ($user_client->client->transactions as $trans)                                
                                     
                                     <tr>
-                                        <td>{{$trans->id}}</td>
+                                        <td>{{$trans->trans_id}}</td>
                                         <td>{{$trans->desc}}</td>
                                         <td>&#8369; {{is_null($trans->amount) ? 'N\A' : number_format($trans->amount, 2)}}</td>
                                         <td>&#8369; {{number_format($trans->prev_bal, 2)}}</td>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Balance;
+use App\Models\Transaction;
 use Carbon\Carbon;
 
 class ClientsController extends Controller
@@ -113,6 +114,32 @@ class ClientsController extends Controller
         return redirect('/profile')->with('success', 'Personal Information is Updated');
 
         
+    }
+
+    public function payBalance(){
+
+        $balance = Balance::find(auth()->user()->client->balance->id);  
+        
+        $prev_bal = $balance->amount;
+
+        $balance->amount = 0;
+
+        $balance->save();
+
+        $transaction = new Transaction;
+        $transaction->client_id = auth()->user()->client->id;
+        $transaction->desc = 'Balance Payment';
+        $transaction->prev_bal = $prev_bal;
+        $transaction->rem_bal = 0;
+        $transaction->amount = $prev_bal;
+        $transaction->save();        
+
+        $transaction->trans_id = Carbon::now()->isoFormat('YY') . sprintf('%04d', $transaction->id);
+
+        $transaction->save();  
+
+        return redirect('/profile')->with('info', 'Balance paid. Thank you');
+
     }
 
     

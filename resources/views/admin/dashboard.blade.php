@@ -43,7 +43,7 @@
 
         <div class="col-4">
 
-            <div class="input-group input-group-lg">
+            <div class="input-group input-group-lg mb-2">
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fa fa-caret-left" aria-hidden="true"></i></span>
                 </div>

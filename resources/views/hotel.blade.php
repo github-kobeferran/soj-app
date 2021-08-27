@@ -160,6 +160,7 @@
                                         <span class="text-white" aria-hidden="true">&times;</span>
                                       </button>
                                     </div>
+                                    
                                     <script src="https://www.paypal.com/sdk/js?client-id=AWBgp7a7-6O-34_L_E-2Xr105AGhWyQFW0vtL8C3xjxo8UxNqXWNMHugnv53bjiiy41VBDXZZo3VLL8S&currency=PHP"></script>                            
 
                                     <div class="form-group p-2">                                            
