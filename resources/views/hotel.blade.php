@@ -59,8 +59,7 @@
 
                 </div>
                
-
-                <button type="button" id="bookNowButton" class="btn btn-primary btn-block d-none">BOOK NOW</button>
+                
 
                 {!!Form::close()!!}                
 
@@ -100,7 +99,7 @@
 
                     </a>
 
-                @else
+                @else                
 
                         @if (!auth()->user()->hasVerifiedEmail())
 
@@ -112,13 +111,43 @@
 
                         @else
 
-                            
+                            @if (is_null(auth()->user()->client->dob) ||
+                                is_null(auth()->user()->client->sex) ||
+                                is_null(auth()->user()->client->nationality) ||
+                                is_null(auth()->user()->client->address) ||
+                                is_null(auth()->user()->client->contact))
+
+                                <button type="button" data-toggle="modal" data-target="#updatefirst" class="btn btn-lg btn-primary btn-block my-2 rounded-0">
+
+                                    BOOK NOW   <i class="fa fa-check" aria-hidden="true"></i>
+
+                                </button>
+
+                                <div class="modal fade" id="updatefirst" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="exampleModalLongTitle">Not Valid</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Update your Personal Information First
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                
+                            @else
+
+                            {{-- GOOD TO GO --}}
 
                             <button type="button" data-toggle="modal" data-target="#exampleModalCenter" class="btn btn-lg btn-primary btn-block my-2 rounded-0">
 
                                 BOOK NOW   <i class="fa fa-check" aria-hidden="true"></i>
 
-                            </button>
+                            </button>                            
 
                            
 
@@ -207,12 +236,16 @@
                                   </div>
                                 </div>
                               </div>
+                                
+                            @endif
+
+                           
 
                         @endif
 
                 @endguest
 
-                
+                <button type="button" onclick="cancelBook()" id="cancelButton" class="btn btn-secondary btn-block rounded-0">Cancel</button>
                
             </div>
 
@@ -222,33 +255,47 @@
 
        @if (!is_null(\App\Models\RoomType::first()))
 
+            <div class="text-center">
+
+                <h4 class="material text" style="color:rgb(156, 42, 0) !important; ">ROOM TYPES</h4>
+
+            </div>
+
             <div class="row d-flex flex-wrap">
 
 
-                {{-- @foreach (\App\Models\RoomType::all() as $room_types)
+                @foreach (\App\Models\RoomType::all() as $room_type)
 
-                    <div class="border border-dark">
+                    <div class="border text-center mx-auto my-2 p-2" style="background-color: rgba(82, 53, 27, 0.295) !important;">
+                        
+                        <img data-enlargeable style="max-height: 300px; max-width:300px; cursor: zoom-in;" src="{{url('storage/images/room_types/' . $room_type->images)}}" alt="" class="img-thumbnail border border-secondary">
 
-                        @foreach (explode('*', $room_types->images) as $image)
+                        <h2 class="material text" style="color:rgb(153, 153, 153) !important;">{{strtoupper($room_type->desc)}}</h2>
+                        <h5 class="material text">&#8369;{{number_format($room_type->rate, 2)}}/night</h5>   
+                        
+                        @if (!empty($room_type->persons_fit))
 
-                            <div>
-                                <img src="{{url('storage/images/room_types/' . $image)}}" alt="">
-                            </div>
-                            {{$image}}
+                            @foreach ($room_type->beds_attr as $bed)
+                                <h6 class="material text" style="font-family: 'Allison', cursive !important; font-size: 2rem !important;">{{ucfirst($bed->desc)}}</h6>   
+                            @endforeach   
                             
+                            <h6 class="material text">for {{$room_type->persons_fit}} Adults</h6>   
+                            
+                        @endif
+
+                        @foreach ($room_type->features() as $feature)
+                            
+                            <div class="text-center">
+                                <span class="text-muted"><i class="fa fa-circle text-dark align-middle" style="font-size: .4rem;" aria-hidden="true"></i> {{$feature->desc}}</span>
+                            </div>
+
                         @endforeach
+                        
 
-                    </div>
-
+                    </div>                                        
                     
-                    
-                @endforeach --}}
-            
-                <div class="mx-auto">
-
-                    
-
-                </div>
+                @endforeach
+                         
 
             </div>
            
@@ -277,10 +324,16 @@ let roomTypeDisplay = document.getElementById('roomTypeDisplay');
 let bookCostDisplay = document.getElementById('bookCostDisplay');
 let inputAmount = document.getElementById('inputAmount');
 let hiddenAmount = document.getElementById('hiddenAmount');
+let cancelButton = document.getElementById('cancelButton');
 
 $("[type='number']").keypress(function (evt) {
     evt.preventDefault();
 });
+
+$("[type='number']").on("cut copy paste",function(e) {
+      e.preventDefault();
+});
+
 
 selectRoomType.addEventListener('change', () => {
     getAvailableRooms();
@@ -402,17 +455,26 @@ function changeBookingPanel(error = false){
                         currency: 'PHP',                        
                     });
 
-                    cost = Number(details.cost).toFixed(2);
+                    cost = Number(details.cost).toFixed(2);                    
 
-                    inputAmount.min = cost / 2;
-                    inputAmount.value = cost;
-                    inputAmount.max = cost;
-                    hiddenAmount.value = cost;
+                   
 
-                    render(cost);
+                   
 
                     roomQuantityDisplay.textContent = details.quantity;
                     roomTypeDisplay.textContent = details.room_type_desc;
+                    bookCostDisplay.textContent = cost;
+
+                    if (typeof hiddenAmount !== 'undefined') {
+                        render(cost);
+
+                        inputAmount.min = cost / 2;
+                        inputAmount.value = cost;
+                        inputAmount.max = cost;
+                        hiddenAmount.value = cost;
+                    }
+
+                    
 
                     let nights = '';
 
@@ -440,6 +502,50 @@ function changeBookingPanel(error = false){
 
 }
 
+function cancelBook() {
+
+    bookPanel.classList.add('d-none');
+    inputQuantityPanel.classList.add('d-none');
+
+    selectRoomType.value = null;    
+
+    var date = new Date();
+
+    
+    startInputDate.valueAsDate = date.setDate(date.getDate() + 1);
+    endInputDate.valueAsDate = date.setDate(date.getDate() + 2);
+
+}
+
+
+$('img[data-enlargeable]').addClass('img-enlargeable').click(function() {
+    var src = $(this).attr('src');
+    var modal;
+
+    function removeModal() {
+        modal.remove();
+        $('body').off('keyup.modal-close');
+    }
+    modal = $('<div>').css({
+        background: 'RGBA(0,0,0,.5) url(' + src + ') no-repeat center',
+        backgroundSize: 'contain',
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        zIndex: '10000',
+        top: '0',
+        left: '0',
+        cursor: 'zoom-out'
+    }).click(function() {
+        removeModal();
+    }).appendTo('body');
+    //handling ESC
+    $('body').on('keyup.modal-close', function(e) {
+        if (e.key === 'Escape') {
+        removeModal();
+        }
+    });
+    });
 
 
 </script>

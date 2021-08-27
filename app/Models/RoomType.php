@@ -14,6 +14,8 @@ class RoomType extends Model
 {
     use HasFactory;    
 
+    protected $appends = ['persons_fit' => null, 'beds_attr' => null];    
+
     public function rooms(){
 
         return $this->hasMany(Room::class);
@@ -25,6 +27,33 @@ class RoomType extends Model
         return $this->hasMany(RoomBeds::class);
 
     }
+
+    public function getBedsAttrAttribute(){
+
+        $collection = collect();
+                      
+        foreach($this->beds as $bed_rel){
+            $collection->push(Bed::find($bed_rel->bed_id));
+        }
+
+        $collection->unique();
+
+        return $this->attributes['beds_attr'] = $collection;
+
+    }
+
+    public function getPersonsFitAttribute(){
+
+        $count = 0;
+                      
+        foreach($this->beds as $bed_rel){
+            $count+= Bed::find($bed_rel->bed_id)->persons_fit;
+        }
+
+        return $this->attributes['persons_fit'] = $count;
+
+    }
+
 
     public function features(){        
 

@@ -79,7 +79,7 @@ class ClientsController extends Controller
             $extension = $request->file('image')->getClientOriginalExtension();        
             $fileNameToStore = $filename.'_'.time().'.'.$extension;        
             $path = $request->file('image')->storeAs('public/images/client/', $fileNameToStore);            
-        };                            
+        }                           
                 
         $user = auth()->user();
         $client = Client::find($user->client->id);

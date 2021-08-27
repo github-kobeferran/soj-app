@@ -47,8 +47,14 @@
 
                         @if (auth()->user()->isAdmin())
 
-                            <a class="dropdown-item" href="/profile">
+                            <a class="dropdown-item" href="/admin">
                                 Admin Dashboard
+                            </a>
+                            <a class="dropdown-item" href="/clients">
+                                Clients
+                            </a>
+                            <a class="dropdown-item" href="/rooms">
+                                Rooms
                             </a>
                             
                         @else

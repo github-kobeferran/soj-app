@@ -13,7 +13,7 @@ class Client extends Model
 
     protected $fillable = [
         'user_id',
-    ];
+    ];    
 
     public function balance(){
 
@@ -29,6 +29,12 @@ class Client extends Model
     public function transactions(){
 
         return $this->hasMany(Transaction::class);
+
+    }
+
+    public function bookings(){
+
+        return $this->hasMany(Booking::class);
 
     }
 

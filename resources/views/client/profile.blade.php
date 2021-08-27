@@ -145,6 +145,8 @@
                     </div>
                     
                 @endif
+
+
        
                             
 
@@ -152,6 +154,74 @@
           
 
         </div>
+
+        <div class="row my-3">
+
+            <div class="col-md">
+
+                <h2 class="material-text text-danger">Bookings History <i class="fa fa-history" aria-hidden="true"></i></h2>
+
+                @if (count($user_client->client->transactions) > 0)
+
+                    <hr>
+
+                    <div class="table-responsive">
+
+                        <table id="bookings" class="table table-bordered table-striped" style="width:100%">
+                            <thead class="bg-danger text-white" style="font-family: 'Poppins', sans-serif !important; ">
+                                <th>Booking ID</th>
+                                <th>Room Type</th>
+                                <th>From</th>
+                                <th>Until</th>
+                                <th>Cost</th>
+                                <th>Status</th>                                
+                            </thead>
+
+                            <tbody>
+
+                                @foreach ($user_client->client->bookings as $booking)                                
+                                    
+                                    <tr>
+
+                                    <td>#{{$booking->booking_id}}</td>
+                                    <td>{{\App\Models\RoomType::find(\App\Models\Room::find($booking->room_id)->room_type_id)->desc}}</td>
+                                    <td>{{\Carbon\Carbon::parse($booking->start_date)->isoFormat('DD, MMM OY') }}</td>
+                                    <td>{{\Carbon\Carbon::parse($booking->end_date)->isoFormat('DD, MMM OY') }}</td>
+                                    <td>&#8369; {{number_format($booking->cost, 2)}}</td>
+
+                                    @switch($booking->status)
+                                        @case(1)
+                                            <td>Pending</td>
+                                            @break
+                                        @case(2)
+                                            <td>Cheked in</td>
+                                            @break
+                                        @default
+                                            
+                                    @endswitch
+
+                                    </tr>
+
+                                @endforeach
+
+                            </tbody>
+
+                        </table>                        
+
+                    </div>
+                
+                @else
+
+                    <h5 class="mt-4 text-center align-middle">No transactions to show</h5>
+                    
+                    
+                @endif
+
+            </div>
+            
+        </div>
+
+        <hr>
 
         <div class="row my-3">
 
@@ -179,12 +249,15 @@
 
                                 @foreach ($user_client->client->transactions as $trans)                                
                                     
-                                    <td>{{$trans->id}}</td>
-                                    <td>{{$trans->desc}}</td>
-                                    <td>&#8369; {{is_null($trans->amount) ? 'N\A' : number_format($trans->amount, 2)}}</td>
-                                    <td>&#8369; {{number_format($trans->prev_bal, 2)}}</td>
-                                    <td>&#8369; {{number_format($trans->rem_bal, 2)}}</td>
-                                    <td>{{\Carbon\Carbon::parse($trans->created_at)->isoFormat('DD, MMM OY hh:mm A') }}</td>
+                                    <tr>
+                                        <td>{{$trans->id}}</td>
+                                        <td>{{$trans->desc}}</td>
+                                        <td>&#8369; {{is_null($trans->amount) ? 'N\A' : number_format($trans->amount, 2)}}</td>
+                                        <td>&#8369; {{number_format($trans->prev_bal, 2)}}</td>
+                                        <td>&#8369; {{number_format($trans->rem_bal, 2)}}</td>
+                                        <td>{{\Carbon\Carbon::parse($trans->created_at)->isoFormat('DD, MMM OY hh:mm A') }}</td>
+                                    </tr>
+                                    
                                 @endforeach
 
                             </tbody>
@@ -209,7 +282,7 @@
 <script>
     $(document).ready(function() {
         $('#transactions').DataTable();
-      
+        $('#bookings').DataTable();      
     } );
 
     let selectNationality = document.getElementById('selectNationality');

@@ -45,10 +45,9 @@ class BookingsController extends Controller
         $ctrlr = new RoomsController;
 
         $availableRooms = $ctrlr->availableRooms($startdate, $enddate, $roomtype)->take($quantity);
-
         $datenow = Carbon::now();
 
-        $balance->amount = $cost;
+        $balance->amount+= $cost;
         $balance->save();
 
         foreach($availableRooms as $room){
@@ -88,13 +87,7 @@ class BookingsController extends Controller
         $transaction->save();        
 
 
-        return redirect('profile')->with('success', 'You have successfully booked at '. Carbon::parse($startdate)->isoFormat('MMM DD, OY') . ' to ' . Carbon::parse($enddate)->isoFormat('MMM DD, OY'));
-
-        
-
-
-        // return $email . ' => ' . $amount . ' => ' . $roomtype . ' => ' . $startdate . ' => ' . $enddate . ' => ' . $quantity . ' => ' . $cost;
-
+        return redirect('profile')->with('success', 'You have successfully booked at '. Carbon::parse($startdate)->isoFormat('MMM DD, OY') . ' to ' . Carbon::parse($enddate)->isoFormat('MMM DD, OY'));                
 
     }
 
