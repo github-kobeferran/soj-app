@@ -766,7 +766,7 @@
 
             <div class="table-responsive">
 
-                <table id="features" class="table table-bordered">
+                <table id="beds" class="table table-bordered">
 
                     <thead class="bg-secondary text-light">
 
@@ -894,6 +894,7 @@ $(document).ready(function() {
     $('#roomtypes').DataTable();      
     $('#rooms').DataTable();      
     $('#features').DataTable();      
+    $('#beds').DataTable();      
 
     $('.selectpicker').selectpicker('refresh');
 });

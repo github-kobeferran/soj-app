@@ -135,7 +135,7 @@
                 @if ($user_client->client->checked_in == 1)
 
                     <div class="m-auto text-center bg-info p-2">
-                        <h4 class="material-text">Checked In</h4>
+                        <h4 class="material-text text-white">Checked In</h4>
                     </div>
                     
                 @else
@@ -195,6 +195,12 @@
                                             @break
                                         @case(2)
                                             <td>Cheked in</td>
+                                            @break
+                                        @case(3)
+                                            <td>Done</td>
+                                            @break
+                                        @case(4)
+                                            <td>Cancelled</td>
                                             @break
                                         @default
                                             

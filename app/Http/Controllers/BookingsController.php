@@ -8,6 +8,7 @@ use App\Models\RoomType;
 use App\Models\Booking;
 use App\Models\Transaction;
 use App\Models\Balance;
+use App\Models\Client;
 use Carbon\Carbon;
 
 class BookingsController extends Controller
@@ -88,6 +89,43 @@ class BookingsController extends Controller
 
 
         return redirect('profile')->with('success', 'You have successfully booked at '. Carbon::parse($startdate)->isoFormat('MMM DD, OY') . ' to ' . Carbon::parse($enddate)->isoFormat('MMM DD, OY'));                
+
+    }
+
+    public function checkIn(Request $request){        
+
+        if($request->method() != 'POST')
+            return redirect()->back();
+        
+        $booking = Booking::find($request->input('id'));
+        $booking->status = 2;     
+
+        $client = Client::find($booking->client->id);
+        $client->checked_in = 1;
+        $client->last_checked_in = Carbon::now();
+
+        $booking->save(); 
+        $client->save();
+        
+        return redirect('/admin')->with('info', 'Client ' . $booking->client->user->name . ' is Checked in');
+
+    }
+
+    public function done(Request $request){
+
+        if($request->method() != 'POST')
+            return redirect()->back();
+        
+        $booking = Booking::find($request->input('id'));
+        $booking->status = 3;   
+
+        $client = Client::find($booking->client->id);
+        $client->checked_in = 0;
+
+        $booking->save(); 
+        $client->save();
+        
+        return redirect('/admin')->with('info', 'Client ' . $booking->client->user->name . ' is Checked out');
 
     }
 

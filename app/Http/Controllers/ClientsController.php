@@ -12,6 +12,12 @@ use Carbon\Carbon;
 
 class ClientsController extends Controller
 {
+
+    public function view(){
+
+        return view('client.view');
+
+    }
     
     public function show($email = null){
 
@@ -108,5 +114,7 @@ class ClientsController extends Controller
 
         
     }
+
+    
 
 }

@@ -30,7 +30,7 @@
                         <p class="mx-auto">
                             Puerto Galera
                         </p>
-                        <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
+                        <a target="_blank" href="http://www.puertogalera.gov.ph/" class="border border-dark text-center p-2 text-dark" > Learn More</a>
                     </div>
                 </div>
 

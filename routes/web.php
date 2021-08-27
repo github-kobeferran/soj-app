@@ -19,6 +19,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/hotel', [App\Http\Controllers\RoomTypesController::class, 'clientView'])->name('roomtypes.clientview');
+Route::get('/restaurant', [App\Http\Controllers\RoomTypesController::class, 'clientView'])->name('roomtypes.clientview');
 
 
 Route::get('/profile/{email?}', [App\Http\Controllers\ClientsController::class, 'show'])->name('client.profile')->middleware(['verified']);
@@ -51,5 +52,7 @@ Route::middleware([App\Http\Middleware\ProtectAdminRoutesMiddleware::class])->gr
     Route::any('/bedstore', [App\Http\Controllers\BedsController::class, 'store'])->name('bed.store');
     Route::any('/bedupdate', [App\Http\Controllers\BedsController::class, 'update'])->name('bed.update');
     Route::any('/beddelete', [App\Http\Controllers\BedsController::class, 'delete'])->name('bed.delete');
+    Route::any('/checkin', [App\Http\Controllers\BookingsController::class, 'checkIn'])->name('booking.checkin');
+    Route::any('/bookdone', [App\Http\Controllers\BookingsController::class, 'done'])->name('booking.done');
 
 });
