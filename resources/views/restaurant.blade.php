@@ -17,27 +17,29 @@
                 </a>    
 
             @endguest
+        
+            @auth
 
-            @if (auth()->user()->client->checked_in == 0)
+                @if (auth()->user()->client->checked_in == 0)
 
-              <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
+                <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
                     Reserve a Table tonight
-              </button>
+                </button>
 
                 <div class="modal fade" id="notcheckedinmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
-                      <div class="modal-content">
+                        <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                          </button>
+                            </button>
                         </div>
                         <div class="modal-body text-center">
-                          Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
+                            Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
                         </div>
                         
-                      </div>
+                        </div>
                     </div>
                 </div>
             
@@ -58,6 +60,8 @@
                 {!!Form::close()!!}
 
             @endif
+                
+            @endauth
 
 
             

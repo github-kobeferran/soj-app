@@ -14,7 +14,7 @@
         <ul class="navbar-nav ">
 
             <li class="nav-item ">    
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Home,') }}</a>
+                <a class="nav-link" href="{{ route('home') }}">{{ __('Home,') }}</a>
             </li>
             <li class="nav-item">    
                 <a class="nav-link" href="{{ route('dishes.clientview') }}">{{ __('Restaurant,') }}</a>
