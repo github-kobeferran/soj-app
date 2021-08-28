@@ -382,9 +382,14 @@
     </div>
 
 <script>
-    $(document).ready(function() {
-        $('#transactions').DataTable();
-        $('#bookings').DataTable();      
+    $(document).ready(function() {     
+        $('#transactions').DataTable( {
+            "order": [[ 5, "desc" ]]
+        } );
+        $('#bookings').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
+        
     } );
 
     let selectNationality = document.getElementById('selectNationality');

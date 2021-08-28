@@ -29,6 +29,12 @@
                 </span>
             </a>
 
+            <a href="/admin#tables" class="btn btn-warning border border-primary  my-1 mx-2">Tables 
+                <span class="badge badge-light">
+                    {{\App\Models\Table::count() }}
+                </span>
+            </a>
+
         </div>
 
     </div>
@@ -232,19 +238,138 @@
         
     @endif
 
+    <div class="mt-1">
+        @include('inc.messages')
+
+    </div>
+
+    <div class="row my-2 border border-secondary py-2">
+
+        <div class="col  ">
+            
+            <h5>Number of Tables : {{\App\Models\Table::count()}}</h5>
+
+        </div>
+        <div class="col  ">
+            
+            {!!Form::open([ 'url' => '/tablestore']) !!}
+
+                <button type="submit" class="btn btn-sm btn-success">Add a Table</button>
+
+            {!!Form::close() !!}
+
+        </div>
+        <div class="col  ">
+            
+            {!!Form::open([ 'url' => '/tabledelete']) !!}
+
+                <button type="submit" class="btn btn-sm btn-secondary">Delete a Table</button>
+
+            {!!Form::close() !!}
+
+
+        </div>
+        <div class="col  ">
+            
+            <h5>Reserved Tables : {{\App\Models\Table::where('status', 1)->count()}}</h5>
+
+        </div>
+
+    </div>
+
+    @if (!is_null(\App\Models\Reservation::first()))
+
+        <div class="row">
+            <div class="col text-right">
+
+                <div class="input-group input-group-lg mb-2 ">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fa fa-caret-left" aria-hidden="true"></i></span>
+                    </div>
+                    <button id="toggleReservations" type="button" onclick="toggleReservationsPanel()" class="btn btn-sm btn-warning float-right">See Reservations <span class="badge badge-light">{{\App\Models\Reservation::whereBetween('created_at',  [\Carbon\Carbon::now()->startOfDay(), \Carbon\Carbon::now()->endOfDay()] )->count()}}</span></button>            
+                </div>  
+                    
+            </div>
+        </div>
+
+        <div id="reservationpanel" class="row d-none">
+
+            <div class="col">
+
+                <div class="table-responsive">
+
+                    <table id="reservations" class="table table-bordered">
+
+                        <thead class="bg-success text-white">
+                            <tr>
+                                <th>Client</th>
+                                <th>Date and Time</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (\App\Models\Reservation::orderBy('created_at', 'desc')->get(); as $reservation)
+                            
+                                <tr>
+                                    <td><a href="{{url('/profile/'. $reservation->client->user->email)}}">{{$reservation->client->user->name}}</a></td>
+                                    <td>{{\Carbon\Carbon::parse($reservation->created_at)->isoFormat('DD, MMM OY hh:mm A') }}</td>
+                                </tr>
+                                
+                            @endforeach
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+    @endif
+
 </div>
 
 <script>
 
-$(document).ready(function() {
-    $('#bookings').DataTable();        
-    $('#bookingrecords').DataTable();        
+$(document).ready(function() {  
+    $('#bookings').DataTable( {
+        "order": [[ 0, "desc" ]]
+    } ); 
+   
+    $('#bookingrecords').DataTable( {
+        "order": [[ 0, "desc" ]]
+    } ); 
+
+    $('#reservations').DataTable( {
+        "order": [[ 1, "desc" ]]
+    } ); 
 
     $('.selectpicker').selectpicker('refresh');
 });
 
 let bookingHistoryPanel = document.getElementById('bookingHistoryPanel');
 let buttonToggler = document.getElementById('buttonToggler');
+let reservationpanel = document.getElementById('reservationpanel');
+let toggleReservations = document.getElementById('toggleReservations');
+
+function toggleReservationsPanel(){
+
+    if(reservationpanel.classList.contains('d-none')){          
+
+        reservationpanel.classList.remove('d-none');        
+        toggleReservations.textContent = "Hide Reservations";
+
+    } else {
+
+        reservationpanel.classList.add('d-none');
+        toggleReservations.textContent = "See Reservations";
+
+    }
+
+
+}
 
 function toggleBookingHistoryPanel(){
 

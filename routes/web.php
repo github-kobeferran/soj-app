@@ -19,7 +19,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/hotel', [App\Http\Controllers\RoomTypesController::class, 'clientView'])->name('roomtypes.clientview');
-Route::get('/restaurant', [App\Http\Controllers\RoomTypesController::class, 'clientView'])->name('roomtypes.clientview');
+Route::get('/restaurant', [App\Http\Controllers\DishesController::class, 'clientView'])->name('dishes.clientview');
 
 
 Route::get('/profile/{email?}', [App\Http\Controllers\ClientsController::class, 'show'])->name('client.profile')->middleware(['verified']);
@@ -34,6 +34,7 @@ Route::middleware([App\Http\Middleware\ProtectClientRoutesMiddleware::class])->g
     Route::any('/updateprofile', [App\Http\Controllers\ClientsController::class, 'update'])->name('client.update');    
     Route::any('/paybalance', [App\Http\Controllers\ClientsController::class, 'payBalance'])->name('client.paybalance');    
     Route::any('/cancelbook', [App\Http\Controllers\BookingsController::class, 'cancel'])->name('booking.cancel');
+    Route::any('/reservetable', [App\Http\Controllers\ReservationsController::class, 'store'])->name('reserve.store');
 
 });
 
@@ -42,6 +43,7 @@ Route::middleware([App\Http\Middleware\ProtectAdminRoutesMiddleware::class])->gr
     Route::get('/admin', [App\Http\Controllers\UsersController::class, 'adminView'])->name('admin.view');
     Route::get('/clients', [App\Http\Controllers\ClientsController::class, 'view'])->name('client.view');
     Route::get('/rooms', [App\Http\Controllers\RoomsController::class, 'view'])->name('room.view');
+    Route::get('/dishes', [App\Http\Controllers\DishesController::class, 'view'])->name('dishes.view');
     Route::any('/roomtypestore', [App\Http\Controllers\RoomTypesController::class, 'store'])->name('roomtype.store');
     Route::any('/roomtypeupdate', [App\Http\Controllers\RoomTypesController::class, 'update'])->name('roomtype.update');
     Route::any('/roomtypedelete', [App\Http\Controllers\RoomTypesController::class, 'delete'])->name('roomtype.delete');
@@ -56,5 +58,12 @@ Route::middleware([App\Http\Middleware\ProtectAdminRoutesMiddleware::class])->gr
     Route::any('/beddelete', [App\Http\Controllers\BedsController::class, 'delete'])->name('bed.delete');
     Route::any('/checkin', [App\Http\Controllers\BookingsController::class, 'checkIn'])->name('booking.checkin');
     Route::any('/bookdone', [App\Http\Controllers\BookingsController::class, 'done'])->name('booking.done');    
+    Route::any('/tablestore', [App\Http\Controllers\TablesController::class, 'store'])->name('table.store');    
+    Route::any('/tabledelete', [App\Http\Controllers\TablesController::class, 'delete'])->name('table.delete');    
+    Route::any('/dishstore', [App\Http\Controllers\DishesController::class, 'store'])->name('dish.store');    
+    Route::any('/dishupdate', [App\Http\Controllers\DishesController::class, 'update'])->name('dish.update');    
+    Route::any('/dishdelete', [App\Http\Controllers\DishesController::class, 'delete'])->name('dish.delete');    
+    Route::any('/dishunavailable', [App\Http\Controllers\DishesController::class, 'unavail'])->name('dish.unavail');    
+    Route::any('/dishavailable', [App\Http\Controllers\DishesController::class, 'avail'])->name('dish.avail');    
 
 });

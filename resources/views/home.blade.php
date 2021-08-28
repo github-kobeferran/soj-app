@@ -51,7 +51,7 @@
                                 Restaurant
                             </p>
 
-                            <a href="" class="border border-dark text-center p-2 text-dark" > Learn More</a>
+                            <a href="/restaurant" class="border border-dark text-center p-2 text-dark" > Learn More</a>
                     </div>
                 </div>
 

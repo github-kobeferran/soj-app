@@ -17,7 +17,7 @@
                 <a class="nav-link" href="{{ route('register') }}">{{ __('Home,') }}</a>
             </li>
             <li class="nav-item">    
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Restaurant,') }}</a>
+                <a class="nav-link" href="{{ route('dishes.clientview') }}">{{ __('Restaurant,') }}</a>
             </li>
             <li class="nav-item mr-4">    
                 <a class="nav-link" href="{{ route('roomtypes.clientview') }}">{{ __('Hotel.') }}</a>
@@ -52,6 +52,9 @@
                             </a>
                             <a class="dropdown-item" href="/clients">
                                 Clients
+                            </a>
+                            <a class="dropdown-item" href="/dishes">
+                                Dishes
                             </a>
                             <a class="dropdown-item" href="/rooms">
                                 Rooms
