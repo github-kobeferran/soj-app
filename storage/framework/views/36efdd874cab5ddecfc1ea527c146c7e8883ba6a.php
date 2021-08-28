@@ -10,7 +10,7 @@
 
        <div class="col">
 
-            <?php if(!is_null(\App\Models\Client::first())): ?>
+            <?php if(\App\Models\User::where('user_type', 0)->count() > 1 ): ?>
 
                 <div class="table-responsive">
 

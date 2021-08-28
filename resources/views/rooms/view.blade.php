@@ -347,7 +347,107 @@
 
         @else
 
-            No Room Types yet.. Add one.
+            No Room Types yet.. Add one. 
+
+            <button data-toggle="modal" data-target="#createroomtypemodal" class="btn btn-sm btn-outline-success p-1 ml-2" style="font-size: 1rem;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a Room Type</button>
+
+            <div class="modal fade" id="createroomtypemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                      
+                    <div class="modal-header bg-success text-white">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Create a Room Type</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {!! Form::open(['url' => '/roomtypestore', 'files' => true]) !!}
+
+                        <div class="form-group p-2">
+
+                            <label for="">Description</label>
+
+                            {{Form::text('desc', '', ['class' => 'form-control', 'placeholder' => 'Room Type Description', 'required' => 'required'])}}
+
+                        </div>
+
+                        <div class="form-group p-2">
+
+                            <label for="">Rate</label>
+
+                            {{Form::number('rate', '', ['class' => 'form-control', 'placeholder' => 'Rate Value', 'required' => 'required', 'min' => '300' , 'max' => '20000'])}}
+
+                        </div>
+
+                        <div class="form-group p-2">
+
+                            <label for="">Features</label>
+
+                            @if (!is_null(\App\Models\Feature::first()))
+
+                                <?php $features = \App\Models\Feature::where('standard', 0)->get()->pluck('desc', 'id'); ?>
+
+                                {{Form::select('features[]', $features, null, ['data-live-search' => 'true', 'multiple' => 'multiple', 'class' => 'form-control selectpicker', 'title' => 'Select Features'])}}
+
+                                @if (!is_null(\App\Models\Feature::where('standard', 1)->first()))
+
+                                   <div class="text-left ml-2 border-top">
+
+                                    <h6>Standard Features</h6>
+
+                                        @foreach (\App\Models\Feature::where('standard', 1)->get() as $standard)
+                                                                                    
+                                            <p class="material-text my-0" style="font-size: 1rem !important;"> <i style="font-size: .5rem !important;" class="fa fa-circle align-middle py-auto" aria-hidden="true"></i> {{$standard->desc}}</p>
+                                            
+                                        @endforeach
+
+                                   </div>
+                                    
+                                @endif
+
+                            @else
+
+                                No Features yet.. Add one.
+                                
+                            @endif
+
+                        </div>
+
+                        <div class="form-group p-2">
+
+                            <label for="">Beds</label>
+
+                            @if (!is_null(\App\Models\Bed::first()))
+
+                                <?php $beds = \App\Models\Bed::all()->pluck('desc', 'id'); ?>
+
+                                {{Form::select('beds[]', $beds, null, ['data-live-search' => 'true', 'multiple' => 'multiple', 'class' => 'form-control selectpicker', 'title' => 'Select Beds', 'required' => 'required'])}}
+
+                            @else
+
+                                No Beds yet.. Add one.
+                                
+                            @endif
+
+                        </div>
+
+                        <div class="form-group p-2">
+
+                            <label for="">Image</label>
+
+                            {{Form::file('image',  ['class' => 'form-control', 'required' => 'required'])}}
+
+                        </div>
+                  
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+
+                    {!! Form::close() !!}
+                  </div>
+                </div>
+              </div>
             
         @endif
 
@@ -522,6 +622,47 @@
         @else
 
             No Room yet.. Add one.
+
+            <button data-toggle="modal" data-target="#createroommodal" class="btn btn-sm btn-outline-success p-1 ml-2" style="font-size: 1rem;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a Room</button>
+
+            <div class="modal fade" id="createroommodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Create Room</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {!! Form::open(['url' => '/roomstore']) !!}
+                                                    
+                    <div class="form-group p-2 text-left">
+
+                        <label for="">Name</label>
+
+                        {{Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Room Name', 'required' => 'required'])}}
+
+                    </div>
+
+                    <?php $room_types_list = \App\Models\RoomType::all()->pluck('desc', 'id'); ?> 
+
+                    <div class="form-group p-2 text-left">
+
+                        <label for="">Room Type</label>
+
+                        {{Form::select('room_type_id', $room_types_list, null, ['data-live-search' => 'true', 'class' => 'selectpicker form-control', 'required' => 'required'])}}
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+
+                    {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
 
         @endif
 
@@ -716,6 +857,52 @@
 
                 <h3>No Features yet.. add one.</h3>
 
+                <button data-toggle="modal" data-target="#createfeature" class="btn btn-sm btn-outline-success p-1 ml-2" style="font-size: 1rem;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a Room Feature</button>
+
+                <div class="modal fade" id="createfeature" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Create a Feature</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span class="text-white" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        {!! Form::open(['url' => '/featurestore']) !!}                                                                        
+    
+                        <div class="form-group px-2">
+    
+                            <label for=""><b>Description</b></label>
+                            {{Form::text('desc', '', ['class' => "form-control", 'placeholder' => 'Feature Description', 'required' => 'required', 'minlength' => '3', 'maxlength' => '50'])}}
+    
+                        </div>
+    
+                        <div class="form-group px-2">
+    
+                            <label for=""><b>Type</b></label>
+                            <br>
+    
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-light active">
+                                  <input type="radio" name="standard" id="option1" value="0" autocomplete="off" checked> Special
+                                </label>                       
+                                <label class="btn btn-light">
+                                  <input type="radio" name="standard" id="option3" value="1" autocomplete="off"> Standard
+                                </label>
+                            </div>
+    
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+    
+                        {!! Form::close() !!}
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <hr>
@@ -877,6 +1064,45 @@
             <div class="text center">
 
                 <h3>No Beds yet.. add one.</h3>
+
+                
+            <button data-toggle="modal" data-target="#createbed" class="btn btn-sm btn-outline-success p-1 ml-2" style="font-size: 1rem;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a Bed</button>
+
+            <div class="modal fade" id="createbed" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Create Bed</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="text-white" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {!! Form::open(['url' => '/bedstore']) !!}                                                                        
+
+                    <div class="form-group px-2">
+
+                        <label for=""><b>Description</b></label>
+                        {{Form::text('desc', '', ['class' => "form-control", 'placeholder' => 'Bed Description', 'required' => 'required', 'minlength' => '3', 'maxlength' => '25'])}}
+
+                    </div>
+
+                    <div class="form-group px-2">
+
+                        <label for=""><b>Persons Fit</b></label>
+                        
+                        {{Form::number('persons_fit', 1, ['class' => 'form-control', 'min' => '1', 'max' => '4', 'required' => 'required'])}}
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+
+                    {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
 
             </div>
 

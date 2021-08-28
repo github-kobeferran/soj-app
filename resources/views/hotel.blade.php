@@ -160,8 +160,11 @@
                                         <span class="text-white" aria-hidden="true">&times;</span>
                                       </button>
                                     </div>
-                                    
-                                    <script src="https://www.paypal.com/sdk/js?client-id=AWBgp7a7-6O-34_L_E-2Xr105AGhWyQFW0vtL8C3xjxo8UxNqXWNMHugnv53bjiiy41VBDXZZo3VLL8S&currency=PHP"></script>                            
+                                    <?php 
+                                        $merchant_id =  config('app.paypalMerchantId', 'paypal-client-id-missing');
+                                        
+                                    ?>
+                                    <script src="https://www.paypal.com/sdk/js?client-id={{config('app.paypalClientId', 'paypal-client-id-missing')}}&currency=PHP"></script>                            
 
                                     <div class="form-group p-2">                                            
                                             <h5 class="text-muted">Policy of 50% and above advanced payment, no cancellation refund</h5>
@@ -183,7 +186,9 @@
                                         document.getElementById('inputAmount').addEventListener('input', () => {
                                             render(Number(document.getElementById('inputAmount').value).toFixed(2));
                                         });                                        
-                                                                                                                                                                                          
+
+                                        var merchant_id = {!! json_encode($merchant_id) !!}
+
                                         function render(num){
 
                                             
@@ -202,7 +207,7 @@
                                                             amount: {
                                                                 value: num,
                                                                 currency_code: "PHP", 
-                                                                payee : '5MKSZNVBRXX9S'     
+                                                                payee : merchant_id     
                                                             }
                                                         }]
                                                         });

@@ -145,7 +145,7 @@
                     </div>
                     
                 @endif
-                
+               
                 <?php 
                     $merchant_id =  config('app.paypalMerchantId', 'paypal-client-id-missing');
                     $num = $user_client->client->balance->amount;
