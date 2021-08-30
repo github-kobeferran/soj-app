@@ -11,57 +11,86 @@
         </div>
         <div class="col text-right">            
             
-            <?php if(auth()->guard()->guest()): ?>
-                <a href="/login" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </a>    
+            <?php if(\App\Models\Dish::where('status', 0)->count() > 0): ?>
 
-            <?php endif; ?>
-        
-            <?php if(auth()->guard()->check()): ?>
+                <?php if(auth()->guard()->guest()): ?>
+                    <a href="/login" class="btn btn-light border border-secondary rounded-0">
+                        Reserve a Table tonight
+                    </a>    
 
-                <?php if(auth()->user()->client->checked_in == 0): ?>
-
-                <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </button>
-
-                <div class="modal fade" id="notcheckedinmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body text-center">
-                            Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
-                        </div>
-                        
-                        </div>
-                    </div>
-                </div>
+                <?php endif; ?>
             
-            <?php elseif(\App\Models\Table::where('status', 0)->count() < 1 ): ?>
+                <?php if(auth()->guard()->check()): ?>
 
-                <button disabled class="btn btn-light border border-secondary rounded-0">
-                    Sorry. Tables are full tonight. 
-                </button>
+                    <?php if(auth()->user()->client->checked_in == 0): ?>
 
-            <?php else: ?>
+                        <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
+                            Reserve a Table tonight
+                        </button>
 
-                <?php echo Form::open(['url' => '/reservetable']); ?>
+                        <div class="modal fade" id="notcheckedinmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
+                                </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                
+                    <?php elseif(\App\Models\Table::where('status', 0)->count() < 1 ): ?>
 
+                        <button disabled class="btn btn-light border border-secondary rounded-0">
+                            Sorry. Tables are full tonight. 
+                        </button>
 
-                <button type="submit" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </button>
+                    <?php else: ?>
 
-                <?php echo Form::close(); ?>
+                        <button data-toggle="modal" data-target="#reservemodal" class="btn btn-light border border-secondary rounded-0">
+                            Reserve a Table tonight
+                        </button>
 
+                        <div class="modal fade  rounded-0" id="reservemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered  rounded-0" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header bg-success text-white rounded-0">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Reserve a Table</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <?php echo Form::open(['url' => '/reservetable']); ?>
 
-            <?php endif; ?>
+                                </div>
+
+                                <div class="text-center">
+                                    
+                                   <b> Reserve </b> a Table tonight? <em><?php echo e(\Carbon\Carbon::now()->isoFormat('Do, MMM YY\'')); ?></em>
+
+                                </div>
+
+                                <div class="modal-footer rounded-0">
+                                    <button type="submit" class="btn btn-success rounded-0">
+                                        Yes
+                                    </button>
+                                    <button type="button" class="btn btn-dark rounded-0" data-dismiss="modal">Close</button>                                      
+                                </div>
+                                <?php echo Form::close(); ?>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php endif; ?>
+                    
+                <?php endif; ?>
+
                 
             <?php endif; ?>
 
@@ -82,7 +111,7 @@
 
             </div>
 
-            <?php if(!is_null(\App\Models\Dish::where('status', 0))): ?>
+            <?php if(\App\Models\Dish::where('status', 0)->count() > 0): ?>
             
                 <div class="table-responsive">
 
@@ -125,7 +154,9 @@
 
                 <div class="text-center">
 
-                    <h3>Nothing on the Menu for now <i class="fa fa-smile"></i> </h3>
+                    <hr>
+
+                    <h6>Nothing on the Menu for now <i class="fa fa-smile"></i> </h6>
 
                 </div>
                 

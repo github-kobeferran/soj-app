@@ -11,57 +11,86 @@
         </div>
         <div class="col text-right">            
             
-            @guest
-                <a href="/login" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </a>    
+            @if (\App\Models\Dish::where('status', 0)->count() > 0)
 
-            @endguest
-        
-            @auth
+                @guest
+                    <a href="/login" class="btn btn-light border border-secondary rounded-0">
+                        Reserve a Table tonight
+                    </a>    
 
-                @if (auth()->user()->client->checked_in == 0)
-
-                <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </button>
-
-                <div class="modal fade" id="notcheckedinmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle"></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body text-center">
-                            Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
-                        </div>
-                        
-                        </div>
-                    </div>
-                </div>
+                @endguest
             
-            @elseif(\App\Models\Table::where('status', 0)->count() < 1 )
+                @auth
 
-                <button disabled class="btn btn-light border border-secondary rounded-0">
-                    Sorry. Tables are full tonight. 
-                </button>
+                    @if (auth()->user()->client->checked_in == 0)
 
-            @else
+                        <button data-toggle="modal" data-target="#notcheckedinmodal" class="btn btn-light border border-secondary rounded-0">
+                            Reserve a Table tonight
+                        </button>
 
-                {!!Form::open(['url' => '/reservetable'])!!}
-
-                <button type="submit" class="btn btn-light border border-secondary rounded-0">
-                    Reserve a Table tonight
-                </button>
-
-                {!!Form::close()!!}
-
-            @endif
+                        <div class="modal fade" id="notcheckedinmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    Can't reserve if you're not checked in! <i class="fa fa-smile"></i>
+                                </div>
+                                
+                                </div>
+                            </div>
+                        </div>
                 
-            @endauth
+                    @elseif(\App\Models\Table::where('status', 0)->count() < 1 )
+
+                        <button disabled class="btn btn-light border border-secondary rounded-0">
+                            Sorry. Tables are full tonight. 
+                        </button>
+
+                    @else
+
+                        <button data-toggle="modal" data-target="#reservemodal" class="btn btn-light border border-secondary rounded-0">
+                            Reserve a Table tonight
+                        </button>
+
+                        <div class="modal fade  rounded-0" id="reservemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered  rounded-0" role="document">
+                                <div class="modal-content">
+                                <div class="modal-header bg-success text-white rounded-0">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Reserve a Table</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    {!!Form::open(['url' => '/reservetable'])!!}
+                                </div>
+
+                                <div class="text-center">
+                                    
+                                   <b> Reserve </b> a Table tonight? <em>{{\Carbon\Carbon::now()->isoFormat('Do, MMM YY\'')}}</em>
+
+                                </div>
+
+                                <div class="modal-footer rounded-0">
+                                    <button type="submit" class="btn btn-success rounded-0">
+                                        Yes
+                                    </button>
+                                    <button type="button" class="btn btn-dark rounded-0" data-dismiss="modal">Close</button>                                      
+                                </div>
+                                {!!Form::close()!!}
+                                </div>
+                            </div>
+                        </div>
+
+                    @endif
+                    
+                @endauth
+
+                
+            @endif
 
 
             
@@ -80,7 +109,7 @@
 
             </div>
 
-            @if (!is_null(\App\Models\Dish::where('status', 0)))
+            @if (\App\Models\Dish::where('status', 0)->count() > 0)
             
                 <div class="table-responsive">
 
@@ -123,7 +152,9 @@
 
                 <div class="text-center">
 
-                    <h3>Nothing on the Menu for now <i class="fa fa-smile"></i> </h3>
+                    <hr>
+
+                    <h6>Nothing on the Menu for now <i class="fa fa-smile"></i> </h6>
 
                 </div>
                 
