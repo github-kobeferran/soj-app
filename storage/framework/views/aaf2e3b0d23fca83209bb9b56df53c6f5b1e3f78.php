@@ -151,82 +151,95 @@
                                 <td><?php echo e($booking->status == 1 ? 'Pending' : 'Checked in'); ?></td>
                                 <td>&#8369;<?php echo e(number_format($booking->cost, 2)); ?></td>
 
-                                <?php if($booking->status == 1): ?>
-                                    <td><button type="button" data-toggle="modal" data-target="#checkin" class="btn-warning text-success">CHECK IN</button></td>
-                                    <div class="modal fade" id="checkin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-    
-                                                <div class="modal-header bg-warning text-dark">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Check In Client</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <?php echo Form::open(['url' => '/checkin']); ?>
 
-    
-                                                <?php echo e(Form::hidden('id', $booking->id)); ?>
+                                <?php switch($booking->status):
+                                    case (1): ?>
 
-    
-                                                <div class="modal-body text-center">
-                                                    Check <b><?php echo e($booking->client->user->name); ?> </b>in?
-                                                </div>
-    
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-warning text-white">Yes</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                                <?php echo Form::close(); ?>
+                                        <td><button type="button" data-toggle="modal" data-target="#checkin" class="btn-warning text-success">CHECK IN</button></td>
+                                        <div class="modal fade" id="checkin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+        
+                                                    <div class="modal-header bg-warning text-dark">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Check In Client</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <?php echo Form::open(['url' => '/checkin']); ?>
 
+        
+                                                    <?php echo e(Form::hidden('id', $booking->id)); ?>
+
+        
+                                                    <div class="modal-body text-center">
+                                                        Check <b><?php echo e($booking->client->user->name); ?> </b>in?
+                                                    </div>
+        
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-warning text-white">Yes</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    <?php echo Form::close(); ?>
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php else: ?>
-                                    <td><button type="button" data-toggle="modal" data-target="#checkout" class="btn-primary text-white">CHECK OUT</button></td>
-                                    <div class="modal fade" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-    
-                                                <div class="modal-header bg-primary text-white">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Check Out Client</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                        
+                                        <?php break; ?>
+                                    <?php case (2): ?>
+
+                                        <td><button type="button" data-toggle="modal" data-target="#checkout" class="btn-primary text-white">CHECK OUT</button></td>
+                                        <div class="modal fade" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+        
+                                                    <div class="modal-header bg-primary text-white">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Check Out Client</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <?php echo Form::open(['url' => '/bookdone']); ?>
+
+        
+                                                    <?php echo e(Form::hidden('id', $booking->id)); ?>
+
+        
+                                                    <div class="modal-body text-center">
+                                                        Check <b><?php echo e($booking->client->user->name); ?> </b>out?
+                                                        <?php if($booking->client->balance->amount > 0): ?>
+                                                            <?php switch($booking->client->sex):
+                                                                case (0): ?>
+                                                                    He still has &#8369; <b><?php echo e(number_format($booking->client->balance->amount, 2)); ?></b> balance.
+                                                                    <?php break; ?>
+                                                                <?php case (1): ?>
+                                                                    She still has &#8369; <b><?php echo e(number_format($booking->client->balance->amount, 2)); ?></b> balance.
+                                                                    <?php break; ?>
+                                                                <?php default: ?>
+                                                                    
+                                                            <?php endswitch; ?>
+                                                        <?php endif; ?>
+
+                                                    </div>
+        
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary text-white">Yes</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    <?php echo Form::close(); ?>
+
                                                 </div>
-                                                <?php echo Form::open(['url' => '/bookdone']); ?>
-
-    
-                                                <?php echo e(Form::hidden('id', $booking->id)); ?>
-
-    
-                                                <div class="modal-body text-center">
-                                                    Check <b><?php echo e($booking->client->user->name); ?> </b>out?
-                                                    <?php if($booking->client->balance->amount > 0): ?>
-                                                        <?php switch($booking->client->sex):
-                                                            case (0): ?>
-                                                                He still has &#8369; <b><?php echo e(number_format($booking->client->balance->amount, 2)); ?></b> balance.
-                                                                <?php break; ?>
-                                                            <?php case (1): ?>
-                                                                She still has &#8369; <b><?php echo e(number_format($booking->client->balance->amount, 2)); ?></b> balance.
-                                                                <?php break; ?>
-                                                            <?php default: ?>
-                                                                
-                                                        <?php endswitch; ?>
-                                                    <?php endif; ?>
-
-                                                </div>
-    
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary text-white">Yes</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                                <?php echo Form::close(); ?>
-
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>                                                                
+                                        
+                                    <?php break; ?>
+                                    <?php case (3): ?>
+                                        <td>Done</td>
+                                    <?php break; ?>
+                                    <?php default: ?>
+                                        
+                                <?php endswitch; ?>                                                               
 
                             </tr>
                         

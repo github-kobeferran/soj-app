@@ -602,7 +602,7 @@
 
                                     <label for="">Room Type</label>
 
-                                    <?php echo e(Form::select('name', $room_types_list, $room->room_type_id, ['data-live-search' => 'true', 'class' => 'selectpicker form-control', 'required' => 'required'])); ?>
+                                    <?php echo e(Form::select('room_type_id', $room_types_list, $room->room_type_id, ['data-live-search' => 'true', 'class' => 'selectpicker form-control', 'required' => 'required'])); ?>
 
 
                                 </div>

@@ -147,76 +147,89 @@
                                 <td>{{$booking->status == 1 ? 'Pending' : 'Checked in'}}</td>
                                 <td>&#8369;{{number_format($booking->cost, 2)}}</td>
 
-                                @if ($booking->status == 1)
-                                    <td><button type="button" data-toggle="modal" data-target="#checkin" class="btn-warning text-success">CHECK IN</button></td>
-                                    <div class="modal fade" id="checkin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-    
-                                                <div class="modal-header bg-warning text-dark">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Check In Client</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                {!!Form::open(['url' => '/checkin'])!!}
-    
-                                                {{Form::hidden('id', $booking->id)}}
-    
-                                                <div class="modal-body text-center">
-                                                    Check <b>{{$booking->client->user->name}} </b>in?
-                                                </div>
-    
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-warning text-white">Yes</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                                {!!Form::close()!!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                @else
-                                    <td><button type="button" data-toggle="modal" data-target="#checkout" class="btn-primary text-white">CHECK OUT</button></td>
-                                    <div class="modal fade" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-    
-                                                <div class="modal-header bg-primary text-white">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Check Out Client</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                {!!Form::open(['url' => '/bookdone'])!!}
-    
-                                                {{Form::hidden('id', $booking->id)}}
-    
-                                                <div class="modal-body text-center">
-                                                    Check <b>{{$booking->client->user->name}} </b>out?
-                                                    @if ($booking->client->balance->amount > 0)
-                                                        @switch($booking->client->sex)
-                                                            @case(0)
-                                                                He still has &#8369; <b>{{number_format($booking->client->balance->amount, 2)}}</b> balance.
-                                                                @break
-                                                            @case(1)
-                                                                She still has &#8369; <b>{{number_format($booking->client->balance->amount, 2)}}</b> balance.
-                                                                @break
-                                                            @default
-                                                                
-                                                        @endswitch
-                                                    @endif
 
+                                @switch($booking->status)
+                                    @case(1)
+
+                                        <td><button type="button" data-toggle="modal" data-target="#checkin" class="btn-warning text-success">CHECK IN</button></td>
+                                        <div class="modal fade" id="checkin" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+        
+                                                    <div class="modal-header bg-warning text-dark">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Check In Client</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    {!!Form::open(['url' => '/checkin'])!!}
+        
+                                                    {{Form::hidden('id', $booking->id)}}
+        
+                                                    <div class="modal-body text-center">
+                                                        Check <b>{{$booking->client->user->name}} </b>in?
+                                                    </div>
+        
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-warning text-white">Yes</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    {!!Form::close()!!}
                                                 </div>
-    
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary text-white">Yes</button>
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                                {!!Form::close()!!}
                                             </div>
                                         </div>
-                                    </div>
-                                @endif                                                                
+                                        
+                                        @break
+                                    @case(2)
+
+                                        <td><button type="button" data-toggle="modal" data-target="#checkout" class="btn-primary text-white">CHECK OUT</button></td>
+                                        <div class="modal fade" id="checkout" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+        
+                                                    <div class="modal-header bg-primary text-white">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Check Out Client</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    {!!Form::open(['url' => '/bookdone'])!!}
+        
+                                                    {{Form::hidden('id', $booking->id)}}
+        
+                                                    <div class="modal-body text-center">
+                                                        Check <b>{{$booking->client->user->name}} </b>out?
+                                                        @if ($booking->client->balance->amount > 0)
+                                                            @switch($booking->client->sex)
+                                                                @case(0)
+                                                                    He still has &#8369; <b>{{number_format($booking->client->balance->amount, 2)}}</b> balance.
+                                                                    @break
+                                                                @case(1)
+                                                                    She still has &#8369; <b>{{number_format($booking->client->balance->amount, 2)}}</b> balance.
+                                                                    @break
+                                                                @default
+                                                                    
+                                                            @endswitch
+                                                        @endif
+
+                                                    </div>
+        
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary text-white">Yes</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    {!!Form::close()!!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    @break
+                                    @case(3)
+                                        <td>Done</td>
+                                    @break
+                                    @default
+                                        
+                                @endswitch                                                               
 
                             </tr>
                         

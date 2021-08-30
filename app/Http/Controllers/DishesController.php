@@ -134,7 +134,7 @@ class DishesController extends Controller
         if($request->method() != 'POST')
             return redirect()->back();
 
-        $dish = Dishes::find($request->input('id'));
+        $dish = Dish::find($request->input('id'));
 
         $dish->status = 0;
         $dish->save();
