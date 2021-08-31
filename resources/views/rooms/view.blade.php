@@ -561,6 +561,9 @@
                                                                 
                                 <div class="form-group p-2 text-left">
 
+                                    {{Form::hidden('id', $room->id)}}
+
+
                                     <label for="">Name</label>
 
                                     {{Form::text('name', $room->name, ['class' => 'form-control', 'placeholder' => 'Room Name', 'required' => 'required'])}}
