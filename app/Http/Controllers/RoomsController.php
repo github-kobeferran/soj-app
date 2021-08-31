@@ -71,14 +71,14 @@ class RoomsController extends Controller
 
     }
 
-    public function delete(){
+    public function delete(Request $request){
 
         if($request->method() != 'POST')
             return redirect()->back();
 
         $room = Room::find($request->input('id'));
 
-        if(Booking::where('room_id', $id)
+        if(Booking::where('room_id', $room->id)
                   ->where(function($query){
                         $query->where('status', 1)                                 
                               ->orWhere('status', 2);
