@@ -44,7 +44,7 @@ class RoomsController extends Controller
 
     }
 
-    public function update(Request $request){
+    public function update(Request $request){        
 
         if($request->method() != 'POST')
             return redirect()->back();

@@ -545,76 +545,80 @@
                                 <button data-toggle="modal" data-target="#editroommodal-{{$room->id}}" class="btn btn-sm btn-info">Edit</button>
                                 <button data-toggle="modal" data-target="#deleteroommodal-{{$room->id}}" class="btn btn-sm btn-danger">Delete</button>
 
+                                <div class="modal fade" id="editroommodal-{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header bg-info text-white">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Edit Room {{ucfirst($room->name)}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span class="text-white" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        {!! Form::open(['url' => '/roomupdate']) !!}
+                                                                        
+                                        <div class="form-group p-2 text-left">
+        
+                                            {{Form::hidden('id', $room->id)}}
+        
+        
+                                            <label for="">Name</label>
+        
+                                            {{Form::text('name', $room->name, ['class' => 'form-control', 'placeholder' => 'Room Name', 'required' => 'required'])}}
+        
+                                        </div>
+        
+                                        <?php $room_types_list = \App\Models\RoomType::all()->pluck('desc', 'id'); ?>                                 
+        
+                                        <div class="form-group p-2 text-left">
+        
+                                            <label for="">Room Type</label>
+                                            
+                                            {{Form::select('room_type_id', $room_types_list, $room->room_type_id, ['data-live-search' => 'true', 'class' => 'selectpicker form-control', 'required' => 'required'])}}
+        
+                                        </div>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-info">Save</button>
+                                        </div>
+                    
+                                        {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+        
+        
+                                <div class="modal fade" id="deleteroommodal-{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Delete Room {{ucfirst($room->name)}}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span class="text-white" aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        {!! Form::open(['url' => '/roomdelete']) !!}
+                                                                        
+                                        {{Form::hidden('id', $room->id)}}
+        
+                                        <b class="my-3">You sure you want to delete {{ucfirst($room->name)}}?</b>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger">Yes</button>
+                                        </div>
+                    
+                                        {!! Form::close() !!}
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
+
+                           
                         </tr>
 
-                        <div class="modal fade" id="editroommodal-{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header bg-info text-white">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Room {{ucfirst($room->name)}}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span class="text-white" aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                {!! Form::open(['url' => '/roomupdate']) !!}
-                                                                
-                                <div class="form-group p-2 text-left">
-
-                                    {{Form::hidden('id', $room->id)}}
-
-
-                                    <label for="">Name</label>
-
-                                    {{Form::text('name', $room->name, ['class' => 'form-control', 'placeholder' => 'Room Name', 'required' => 'required'])}}
-
-                                </div>
-
-                                <?php $room_types_list = \App\Models\RoomType::all()->pluck('desc', 'id'); ?> 
-
-                                <div class="form-group p-2 text-left">
-
-                                    <label for="">Room Type</label>
-
-                                    {{Form::select('room_type_id', $room_types_list, $room->room_type_id, ['data-live-search' => 'true', 'class' => 'selectpicker form-control', 'required' => 'required'])}}
-
-                                </div>
-                                
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-info">Save</button>
-                                </div>
-            
-                                {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="modal fade" id="deleteroommodal-{{$room->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                <div class="modal-header bg-danger text-white">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Room {{ucfirst($room->name)}}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span class="text-white" aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                {!! Form::open(['url' => '/roomdelete']) !!}
-                                                                
-                                {{Form::hidden('id', $room->id)}}
-
-                                <b class="my-3">You sure you want to delete {{ucfirst($room->name)}}?</b>
-                                
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                </div>
-            
-                                {!! Form::close() !!}
-                                </div>
-                            </div>
-                        </div>
+                        
 
                         @endforeach
                     </tbody>
