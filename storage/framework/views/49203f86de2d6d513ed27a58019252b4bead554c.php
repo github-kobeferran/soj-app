@@ -101,7 +101,7 @@
 
     </div>
 
-    <div class="row mb-4 border border-secondary p-2 vh-100">
+    <div class="row mb-4 border border-secondary p-2 ">
 
        <div class="col ">
 
